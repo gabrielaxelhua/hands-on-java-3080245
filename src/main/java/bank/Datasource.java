@@ -46,6 +46,7 @@ public class Datasource {
   }
 
   public static Account getAccount(int accountId){
+
     String sql = "select * from accounts where id = ?";
     Account account = null;
 
@@ -64,15 +65,22 @@ public class Datasource {
     }
     return account;
   }
-  public static void main(String[] args) {
+  
+  public static void updateAccountBalance(int accountId, double balance){
     
-    //check data source connection
-    // connect();
+    String sql = "update accounts set balance = ? where id = ?";
 
-    Customer customer = getCustomer("twest8o@friendfeed.com");
-    Account account = getAccount(customer.getAccountId());
-    
-    System.out.println("Hi " + customer.getName() + ". Your balance is " + account.getBalance() + "." );
-   
+    try(
+      Connection connection = connect();
+      PreparedStatement statement = connection.prepareStatement(sql);
+    ){
+      statement.setDouble(1, balance);
+      statement.setInt(2, accountId);
+
+      statement.executeUpdate();
+
+    }catch(SQLException e) {
+      e.printStackTrace();
+    }
   }
 }
