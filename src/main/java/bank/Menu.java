@@ -55,7 +55,7 @@ public class Menu {
       System.out.println("1: Deposit");
       System.out.println("2: Withdrawal");
       System.out.println("3: Check Balance");
-      System.out.println("Exit");
+      System.out.println("4: Exit");
       System.out.println("===========================================");
 
       selection = scanner.nextInt();
@@ -77,7 +77,12 @@ public class Menu {
         case 2:
         System.out.println("How much would you like to withdraw?");
         amount = scanner.nextDouble();
+        try {
         account.withdraw(amount);
+        } catch(AmountException e) {
+          System.out.println(e.getMessage());
+          System.out.println("Please try again");
+        }
         break;
 
         case 3:
